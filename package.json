@@ -1,0 +1,25 @@
+{
+  "name": "storefront_backend",
+  "version": "1.0.0",
+  "description": "Build backend RESTful API for Storefront project",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "start": "node build/index.js",
+    "prettier": "prettier --write src/**/*.ts",
+    "eslint": "eslint src/**/*.ts",
+    "dev": "npm run prettier && npm run eslint && tsc --build --clean && npm run tsc && npm run start",
+    "test": "npm run prettier && npm run eslint && tsc --build --clean && npm run tsc && npm run start"
+  },
+  "author": "Mohamed Al-Bashir",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.3"
+  }
+}
