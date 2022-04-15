@@ -1,25 +1,42 @@
 {
   "name": "storefront_backend",
   "version": "1.0.0",
-  "description": "Build backend RESTful API for Storefront project",
-  "main": "index.js",
+  "description": "Build RESTful API for Storefront project",
+  "main": "server.js",
   "scripts": {
     "tsc": "tsc",
-    "start": "node build/index.js",
+    "start": "node build/server.js",
     "prettier": "prettier --write src/**/*.ts",
     "eslint": "eslint src/**/*.ts",
-    "dev": "npm run prettier && npm run eslint && tsc --build --clean && npm run tsc && npm run start",
-    "test": "npm run prettier && npm run eslint && tsc --build --clean && npm run tsc && npm run start"
+    "jasmine": "jasmine",
+    "init-db": "db-migrate up",
+    "drop-db": "db-migrate db:drop storefront_dev_db",
+    "dev": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run start",
+    "test": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run jasmine"
   },
   "author": "Mohamed Al-Bashir",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jasmine": "^4.0.2",
+    "@types/pg": "^8.6.5",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
+    "db-migrate": "^0.11.13",
+    "db-migrate-pg": "^1.2.2",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "jasmine": "^4.0.2",
+    "jasmine-spec-reporter": "^7.0.0",
     "prettier": "^2.6.2",
+    "supertest": "^6.2.2",
     "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.7.3"
   }
 }
