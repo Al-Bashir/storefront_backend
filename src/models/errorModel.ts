@@ -1,6 +1,7 @@
 import pgConnectionPool from '../config/database';
 
 export interface myError extends Error {
+    customMessage?: string;
     HTTPStatusCode?: number;
 }
 

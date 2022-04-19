@@ -1,1 +1,7 @@
-/* Replace with your SQL commands */
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    passwoed VARCHAR(256) NOT NULL,
+    isAdmin BOOLEAN DEFAULT FALSE NOT NULL,
+    isActive BOOLEAN NOT NULL
+)

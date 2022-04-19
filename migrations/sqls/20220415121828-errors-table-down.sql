@@ -1,1 +1,1 @@
-DROP TABLE errors;
+DROP TABLE IF EXISTS errors;

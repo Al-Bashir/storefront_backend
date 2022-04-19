@@ -1,7 +1,7 @@
 import pgConnectionPool from '../config/database';
 
 describe('Test database connection', (): void => {
-    it('It connect to the database and pass test query', async () => {
+    it('It connect to the database', async () => {
         await expectAsync(
             pgConnectionPool
                 .connect()

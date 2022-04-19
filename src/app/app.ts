@@ -1,5 +1,5 @@
 import express from 'express';
-import routeController from '../routerHandlers/routeController';
+import routeController from '../routerHandlers/routeHandler';
 import errorHandler from '../middleware/error.handler';
 
 const app: express.Application = express();

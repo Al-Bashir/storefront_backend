@@ -10,7 +10,7 @@ const errorHandler = (err: myError, req: Request, res: Response, next: NextFunct
         res.status(503).send('Unexpected error!, please try again later.');
     }
     if (err.HTTPStatusCode) {
-        res.status(err.HTTPStatusCode).send(err.message);
+        res.status(err.HTTPStatusCode).send(err.customMessage);
     } else {
         res.status(503).send('Unexpected error!, please try again later.');
     }

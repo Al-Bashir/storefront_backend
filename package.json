@@ -10,7 +10,7 @@
     "eslint": "eslint src/**/*.ts",
     "jasmine": "jasmine",
     "init-db": "db-migrate up",
-    "drop-db": "db-migrate db:drop storefront_dev_db",
+    "down-db": "db-migrate down",
     "dev": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run start",
     "test": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run jasmine"
   },
