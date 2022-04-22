@@ -11,8 +11,12 @@ const pgConnectionPool = new Pool({
 });
 
 pgConnectionPool.on('error', (err: Error): void => {
-    const poolError: myError = err;
-    poolError.HTTPStatusCode = 500;
+    const poolError: myError = {
+        error: err,
+        message: (err as Error).message,
+        customMessage: `Database connection error: ${err.message}`,
+        HTTPStatusCode: 500,
+    };
     throw poolError;
 });
 

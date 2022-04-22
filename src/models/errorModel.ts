@@ -1,8 +1,11 @@
 import pgConnectionPool from '../config/database';
 
-export interface myError extends Error {
+export interface myError {
+    error: unknown;
+    message: string;
     customMessage?: string;
     HTTPStatusCode?: number;
+    stack?: string;
 }
 
 export default class errors {
