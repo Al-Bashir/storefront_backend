@@ -6,6 +6,8 @@ export type User = {
     id?: string;
     username: string;
     password: string;
+    firstName?: string;
+    lastName?: string;
     isActive?: boolean;
     token?: string;
 };
@@ -15,8 +17,9 @@ export default class user {
     async createUser(user: User): Promise<User> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'INSERT INTO users (username, password) VALUES($1, $2) RETURNING id, username, isActive';
-            const values = [user.username, user.password];
+            const sql =
+                'INSERT INTO users (username, password, firstName, lastName) VALUES($1, $2, $3, $4) RETURNING id, username, firstName as "firstName", lastName as "lastName", isActive as "isActive"';
+            const values = [user.username, user.password, user.firstName, user.lastName];
             const result = await client.query(sql, values);
             client.release();
             return result.rows[0];
@@ -34,7 +37,8 @@ export default class user {
     async indexUsers(): Promise<User[]> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'SELECT id, username, isActive FROM users';
+            const sql =
+                'SELECT id, username, firstName as "firstName", lastName as "lastName", isActive as "isActive" FROM users';
             const result = await client.query(sql);
             client.release();
             return result.rows;
@@ -49,10 +53,11 @@ export default class user {
         }
     }
     // Get user by id
-    async showUser(id: string): Promise<User> {
+    async showUser(id: string): Promise<User | null> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'SELECT id, username, isActive FROM users WHERE id = ($1)';
+            const sql =
+                'SELECT id, username, firstName as "firstName", lastName as "lastName", isActive as "isActive" FROM users WHERE id = ($1)';
             const values = [id];
             const result = await client.query(sql, values);
             client.release();
@@ -72,8 +77,8 @@ export default class user {
         try {
             const client = await pgConnectionPool.connect();
             const sql =
-                'UPDATE users SET username=($1), password=($2), isActive=($3) WHERE id=($4) RETURNING id, username, isActive';
-            const values = [user.username, user.password, user.isActive, user.id];
+                'UPDATE users SET username=($1), password=($2), firstName=($3), lastName=($4), isActive=($5) WHERE id=($6) RETURNING id, username, firstName as "firstName", lastName as "lastName", isActive as "isActive"';
+            const values = [user.username, user.password, user.firstName, user.lastName, user.isActive, user.id];
             const result = await client.query(sql, values);
             client.release();
             return result.rows[0];
@@ -88,10 +93,11 @@ export default class user {
         }
     }
     // Delete user by id
-    async deleteUser(id: string): Promise<User> {
+    async deleteUser(id: string): Promise<User | null> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'DELETE FROM users WHERE id=($1) RETURNING id, username, isActive';
+            const sql =
+                'DELETE FROM users WHERE id=($1) RETURNING id, username, firstName as "firstName", lastName as "lastName", isActive as "isActive"';
             const values = [id];
             const result = await client.query(sql, values);
             client.release();
@@ -110,13 +116,13 @@ export default class user {
     async authenticateUser(user: User): Promise<User | null> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'SELECT * FROM users WHERE username = ($1)';
+            const sql =
+                'SELECT username, password, firstName as "firstName", lastName as "lastName", isActive as "isActive" FROM users WHERE username = ($1)';
             const values = [user.username];
             const result = await client.query(sql, values);
             client.release();
             if (result.rows.length) {
                 if (passwordUtilities.passwordCheck(user.password, result.rows[0].password)) {
-                    delete result.rows[0].password;
                     return result.rows[0];
                 }
             }

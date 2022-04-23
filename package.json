@@ -11,8 +11,10 @@
     "jasmine": "jasmine",
     "init-db": "db-migrate up",
     "down-db": "db-migrate down",
+    "init-test-db": "set APP_ENV=dev&& db-migrate --env test up",
+    "down-test-db": "set APP_ENV=test&& db-migrate reset",
     "dev": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run start",
-    "test": "npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run jasmine"
+    "test": "set APP_ENV=test&& npm run init-test-db && npm run prettier && npm run eslint && rimraf build/* && npm run tsc && npm run jasmine && npm run down-test-db"
   },
   "author": "Mohamed Al-Bashir",
   "license": "ISC",

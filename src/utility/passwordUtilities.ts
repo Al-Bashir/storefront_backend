@@ -8,6 +8,6 @@ export const hashing = (plaintext: string): string => {
     return hash;
 };
 
-export const passwordCheck = (plaintext: string, hasedPasswords: string): boolean => {
-    return bcrypt.compareSync(`${plaintext}${envConfig.HASH_STRING}`, hasedPasswords);
+export const passwordCheck = (plaintext: string, hashedPasswords: string): boolean => {
+    return bcrypt.compareSync(`${plaintext}${envConfig.HASH_STRING}`, hashedPasswords);
 };

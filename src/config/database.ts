@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import envConfig from './envConfig';
 import { myError } from '../models/errorModel';
 
-const pgConnectionPool = new Pool({
+const pgConnectionPool: Pool = new Pool({
     host: envConfig.DB_HOST,
     database: envConfig.APP_ENV === 'test' ? envConfig.DB_TEST_NAME : envConfig.DB_DEV_NAME,
     user: envConfig.DB_USERNAME,

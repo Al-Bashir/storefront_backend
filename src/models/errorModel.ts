@@ -1,12 +1,12 @@
 import pgConnectionPool from '../config/database';
 
-export interface myError {
-    error: unknown;
-    message: string;
+export type myError = {
+    error?: unknown;
+    message?: string;
     customMessage?: string;
     HTTPStatusCode?: number;
     stack?: string;
-}
+};
 
 export default class errors {
     async insertError(error: string): Promise<void> {
