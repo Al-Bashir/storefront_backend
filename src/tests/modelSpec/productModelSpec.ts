@@ -1,9 +1,15 @@
+import user, { User } from '../../models/userModel';
 import productModel, { Product } from '../../models/productModel';
+import orderModel, { Order } from '../../models/orderModel';
+import * as passwordUtilities from '../../utility/passwordUtilities';
 import pgConnectionPool from '../../config/database';
 import pg from 'pg';
 
+const userModel: user = new user();
+const productInstance: productModel = new productModel();
+const orderInstance: orderModel = new orderModel();
+
 describe('productModel', () => {
-    const productInstance: productModel = new productModel();
     describe('productModel method', () => {
         it('Should have createProduct method', () => {
             expect(productInstance.createProduct).toBeDefined();
@@ -27,20 +33,42 @@ describe('productModel', () => {
     });
 
     describe('productModel operations', () => {
+        const user: User = {
+            username: 'testUser',
+            password: passwordUtilities.hashing('testPassword'),
+            firstName: 'test',
+            lastName: 'user',
+        };
+
         const product: Product = {
             name: 'test product',
             price: 100,
             category: 'test',
         };
 
+        const order: Order = {
+            user_id: user.id as string,
+            product_id: product.id as string,
+            quantity: 100,
+            status: 'complete',
+        };
+
         beforeAll(async () => {
+            const testUser: User = await userModel.createUser(user);
+            user.id = testUser.id;
+            order.user_id = testUser.id as string;
             const testProduct: Product = await productInstance.createProduct(product);
             product.id = testProduct.id;
+            order.product_id = product.id as string;
+            const testOrder: Order = await orderInstance.createOrder(order);
+            order.id = testOrder.id;
         });
 
         afterAll(async () => {
             const client: pg.PoolClient = await pgConnectionPool.connect();
+            await client.query('DELETE FROM orders');
             await client.query('DELETE FROM products');
+            await client.query('DELETE FROM users');
             client.release();
         });
 
@@ -77,7 +105,8 @@ describe('productModel', () => {
 
         it('getTopFive method should return top 5 most popular products', async () => {
             const returnGetTopFive: Product[] = await productInstance.getTopFive();
-            expect(returnGetTopFive.length).toBe(5);
+            expect(returnGetTopFive.length).toBeGreaterThanOrEqual(1);
+            expect(returnGetTopFive.length).toBeLessThanOrEqual(5);
         });
 
         it('indexProductsByCategory method should return list of product by category and reject invalid category', async () => {

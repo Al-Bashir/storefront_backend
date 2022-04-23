@@ -67,15 +67,22 @@ export default class productModel {
     }
 
     async getTopFive(): Promise<Product[]> {
-        // to be compelted after order
-        const someProducts: Product[] = [
-            { id: '1', name: '1', price: 1, category: '1' },
-            { id: '1', name: '1', price: 1, category: '1' },
-            { id: '1', name: '1', price: 1, category: '1' },
-            { id: '1', name: '1', price: 1, category: '1' },
-            { id: '1', name: '1', price: 1, category: '1' },
-        ];
-        return someProducts;
+        try {
+            const client = await pgConnectionPool.connect();
+            const sql =
+                'SELECT name FROM products WHERE id IN (SELECT product_id FROM(SELECT product_id, COUNT(product_id) AS id_count FROM orders GROUP BY product_id ORDER BY id_count DESC LIMIT 5) AS products)';
+            const result = await client.query(sql);
+            client.release();
+            return result.rows;
+        } catch (error) {
+            const customError: myError = {
+                error: error,
+                message: (error as Error).message,
+                customMessage: 'Error happened during extract top five popular products from database!',
+                HTTPStatusCode: 503,
+            };
+            throw customError;
+        }
     }
     async indexProductsByCategory(category: string): Promise<Product[]> {
         try {
