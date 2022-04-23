@@ -4,7 +4,7 @@ import * as passwordUtilities from '../../utility/passwordUtilities';
 import pg from 'pg';
 
 describe('userModel', () => {
-    const userModel = new user();
+    const userModel: user = new user();
     describe('userModel method', () => {
         it('Should have createUser method', () => {
             expect(userModel.createUser).toBeDefined();
