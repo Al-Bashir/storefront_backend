@@ -10,8 +10,6 @@ app.use(express.json());
 app.use(cors());
 // Route handler
 app.use('/', routeController);
-// Handle false route
-
 // Error Handler middleware
 app.use(errorHandler);
 
