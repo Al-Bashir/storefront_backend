@@ -91,7 +91,7 @@ storefront_backend
 	```bash
 	npm run init-db
 	``` 
-* check .env file if you need to make any modification  
+* check all environment variables in .env file if you need to make any modification  
 	
 #### Application startup
 * startup the server for development  by run command:

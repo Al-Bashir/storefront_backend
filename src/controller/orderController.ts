@@ -10,13 +10,9 @@ export const create = async (
 ): Promise<void> => {
     try {
         const user_id: string = req.body.user_id;
-        const product_id: string = req.body.product_id;
-        const quantity: number = req.body.quantity;
         const status: string = req.body.status;
         const order: Order = {
             user_id: user_id,
-            product_id: product_id,
-            quantity: quantity,
             status: status,
         };
         res.status(200).send(await orderInstance.createOrder(order));

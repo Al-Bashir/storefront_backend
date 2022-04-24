@@ -40,8 +40,6 @@ describe('orderModel', () => {
 
         const order: Order = {
             user_id: user.id as string,
-            product_id: product.id as string,
-            quantity: 100,
             status: 'complete',
         };
 
@@ -51,7 +49,6 @@ describe('orderModel', () => {
             order.user_id = testUser.id as string;
             const testProduct: Product = await productInstance.createProduct(product);
             product.id = testProduct.id;
-            order.product_id = product.id as string;
             const testOrder: Order = await orderInstance.createOrder(order);
             order.id = testOrder.id;
         });
@@ -67,16 +64,12 @@ describe('orderModel', () => {
         it('createOrder method should create and return order', async () => {
             const testCreateOrder: Order = {
                 user_id: user.id as string,
-                product_id: product.id as string,
-                quantity: 200,
                 status: 'active',
             };
             const returnCreateOrder: Order = await orderInstance.createOrder(testCreateOrder);
             expect(returnCreateOrder).toEqual({
                 id: returnCreateOrder.id,
                 user_id: user.id,
-                product_id: product.id,
-                quantity: 200,
                 status: 'active',
             } as Order);
         });

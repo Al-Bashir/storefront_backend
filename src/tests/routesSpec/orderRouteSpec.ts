@@ -2,14 +2,12 @@ import app from '../../app/app';
 import pgConnectionPool from '../../config/database';
 import pg from 'pg';
 import supertest from 'supertest';
-import productModel, { Product } from '../../models/productModel';
 import user, { User } from '../../models/userModel';
 import orderModel, { Order } from '../../models/orderModel';
 import * as passwordUtilities from '../../utility/passwordUtilities';
 
 const request = supertest(app);
 const userModel: user = new user();
-const productInstance: productModel = new productModel();
 const orderInstance: orderModel = new orderModel();
 
 describe('Order API', () => {
@@ -20,16 +18,8 @@ describe('Order API', () => {
         lastName: 'user',
     };
 
-    const product: Product = {
-        name: 'test product',
-        price: 100,
-        category: 'test',
-    };
-
     const order: Order = {
         user_id: user.id as string,
-        product_id: product.id as string,
-        quantity: 100,
         status: 'complete',
     };
 
@@ -45,9 +35,6 @@ describe('Order API', () => {
                 password: 'testPassword',
             });
         user.token = returnAuthenticateUser.body.token;
-        const testProduct: Product = await productInstance.createProduct(product);
-        product.id = testProduct.id;
-        order.product_id = product.id as string;
         const testOrder: Order = await orderInstance.createOrder(order);
         order.id = testOrder.id;
     });
@@ -55,7 +42,6 @@ describe('Order API', () => {
     afterAll(async () => {
         const client: pg.PoolClient = await pgConnectionPool.connect();
         await client.query('DELETE FROM orders');
-        await client.query('DELETE FROM products');
         await client.query('DELETE FROM users');
         client.release();
     });
@@ -67,14 +53,10 @@ describe('Order API', () => {
             .set('contentType', 'application/json')
             .send({
                 user_id: user.id as string,
-                product_id: product.id as string,
-                quantity: 200,
                 status: 'active',
             });
         expect(returnCreateOrder.status).toBe(200);
         expect(returnCreateOrder.body.user_id).toBe(order.user_id);
-        expect(returnCreateOrder.body.product_id).toBe(order.product_id);
-        expect(returnCreateOrder.body.quantity).toBe(200);
         expect(returnCreateOrder.body.status).toBe('active');
     });
 

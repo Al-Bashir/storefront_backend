@@ -48,8 +48,6 @@ describe('productModel', () => {
 
         const order: Order = {
             user_id: user.id as string,
-            product_id: product.id as string,
-            quantity: 100,
             status: 'complete',
         };
 
@@ -59,7 +57,6 @@ describe('productModel', () => {
             order.user_id = testUser.id as string;
             const testProduct: Product = await productInstance.createProduct(product);
             product.id = testProduct.id;
-            order.product_id = product.id as string;
             const testOrder: Order = await orderInstance.createOrder(order);
             order.id = testOrder.id;
         });

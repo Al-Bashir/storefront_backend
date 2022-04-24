@@ -1,21 +1,20 @@
 import pgConnectionPool from '../config/database';
 import { myError } from '../models/errorModel';
+import { Product } from './productModel';
 
 export interface Order {
     id?: string;
     user_id: string;
-    product_id: string;
-    quantity: number;
     status: string;
+    products?: Product[];
 }
 
 export default class orderModel {
     async createOrder(order: Order): Promise<Order> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql =
-                'INSERT INTO orders (user_id, product_id, quantity, status) VALUES ($1, $2, $3, $4) RETURNING *';
-            const values = [order.user_id, order.product_id, order.quantity, order.status];
+            const sql = 'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING *';
+            const values = [order.user_id, order.status];
             const result = await client.query(sql, values);
             client.release();
             return result.rows[0];

@@ -67,10 +67,10 @@ export default class productModel {
     }
 
     async getTopFive(): Promise<Product[]> {
+        // need update
         try {
             const client = await pgConnectionPool.connect();
-            const sql =
-                'SELECT name FROM products WHERE id IN (SELECT product_id FROM(SELECT product_id, COUNT(product_id) AS id_count FROM orders GROUP BY product_id ORDER BY id_count DESC LIMIT 5) AS products)';
+            const sql = 'SELECT * FROM orders';
             const result = await client.query(sql);
             client.release();
             return result.rows;
