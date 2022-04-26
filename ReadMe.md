@@ -1,7 +1,6 @@
 # Storefront Backend Project
 
 **Table of Contents**
-**Table of Contents**
 * [Overview](#Overviwe)
 * [Requirements](#Requirements)
 * [Project structure](#Project_structure)
@@ -518,5 +517,5 @@ interface  ProductOrder {
 * Udacity
 * FWD initiative
 
-**Author**
+**Author:**
 Mohamed Al-Bashir
