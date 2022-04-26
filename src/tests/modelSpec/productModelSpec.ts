@@ -1,6 +1,7 @@
 import user, { User } from '../../models/userModel';
 import productModel, { Product } from '../../models/productModel';
 import orderModel, { Order } from '../../models/orderModel';
+import productOrderModel, { ProductOrder } from '../../models/productOrderModel';
 import * as passwordUtilities from '../../utility/passwordUtilities';
 import pgConnectionPool from '../../config/database';
 import pg from 'pg';
@@ -8,6 +9,7 @@ import pg from 'pg';
 const userModel: user = new user();
 const productInstance: productModel = new productModel();
 const orderInstance: orderModel = new orderModel();
+const productOrderInstance: productOrderModel = new productOrderModel();
 
 describe('productModel', () => {
     describe('productModel method', () => {
@@ -59,10 +61,17 @@ describe('productModel', () => {
             product.id = testProduct.id;
             const testOrder: Order = await orderInstance.createOrder(order);
             order.id = testOrder.id;
+            const productOrder: ProductOrder = {
+                order_id: order.id as string,
+                product_id: product.id as string,
+                quantity: 2,
+            };
+            await productOrderInstance.create(productOrder);
         });
 
         afterAll(async () => {
             const client: pg.PoolClient = await pgConnectionPool.connect();
+            await client.query('DELETE FROM product_order');
             await client.query('DELETE FROM orders');
             await client.query('DELETE FROM products');
             await client.query('DELETE FROM users');

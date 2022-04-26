@@ -7,6 +7,7 @@ export interface Order {
     user_id: string;
     status: string;
     products?: Product[];
+    total_order_items?: number;
 }
 
 export default class orderModel {
@@ -32,7 +33,17 @@ export default class orderModel {
     async getActive(userId: string): Promise<Order[]> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'SELECT * FROM orders WHERE user_id = ($1) AND status = ($2)';
+            const sql = `SELECT
+                        orders.id ,
+                        orders.user_id,
+                        orders.status,
+                        SUM(product_order.quantity) AS total_order_items,
+                        JSON_AGG(JSON_BUILD_OBJECT('name', products.name, 'price', products.price, 'category', products.category)) AS products FROM product_order
+                        INNER JOIN orders ON orders.id = product_order.order_id
+                        INNER JOIN products ON product_order.product_id = products.id
+                        WHERE orders.user_id = ($1)
+                        AND orders.status = ($2)
+                        GROUP BY orders.id`;
             const values = [userId, 'active'];
             const result = await client.query(sql, values);
             client.release();
@@ -51,7 +62,17 @@ export default class orderModel {
     async getComplete(userId: string): Promise<Order[]> {
         try {
             const client = await pgConnectionPool.connect();
-            const sql = 'SELECT * FROM orders WHERE user_id = ($1) AND status = ($2)';
+            const sql = `SELECT
+                        orders.id ,
+                        orders.user_id,
+                        orders.status,
+                        SUM(product_order.quantity) AS total_order_items,
+                        JSON_AGG(JSON_BUILD_OBJECT('name', products.name, 'price', products.price, 'category', products.category)) AS products FROM product_order
+                        INNER JOIN orders ON orders.id = product_order.order_id
+                        INNER JOIN products ON product_order.product_id = products.id
+                        WHERE orders.user_id = ($1)
+                        AND orders.status = ($2)
+                        GROUP BY orders.id`;
             const values = [userId, 'complete'];
             const result = await client.query(sql, values);
             client.release();

@@ -4,111 +4,8 @@ The company stakeholders want to create an online storefront to showcase their g
 These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application. 
 
 ## API Endpoints
-#### Products
-* Index:
-	* Describe: ``Index all products`` 
-	* Endpoint: ``/products``
-	* Authentication: ``Not required``
-	* HTTP verb:  ``GET``
-	* Request body:  ``Not required``
-	* Response body:   ``Array of Product`` object
-		```javascript
-		[
-			{
-				"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
-				"name": "testProduct",
-				"price": 100,
-				"category": "test"
-			},
-			...
-		]
-		```
-		
-* Show:
-	* Describe: ``Show product with args(product id)`` 
-	* Endpoint: ``/products/show/:id``
-	*  Authentication:  ``Not required``
-	* HTTP verb:  ``GET``
-	* Request body:  ``Not required``
-	* Response body:   ``Product`` object
-		```javascript
-		{
-			"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
-			"name": "testProduct",
-			"price": 100,
-			"category": "test"
-		}
-		``
-* Create
-	* Describe: ``Create new product`` 
-	* Endpoint: ``/products``
-	* Authentication:  Require  ``Bareer Token``
-	* HTTP verb:  ``POST``
-	* Request body:  ``Product`` object
-		```javascript
-		{
-		    "name": "testProduct",
-		    "price": 100,
-		    "category": "test"
-		}
-		```
-	* Response body:  ``Product`` object
-		```javascript
-		{
-			"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
-			"name": "testProduct",
-			"price": 100,
-			"category": "test"
-		}
-		```
-		
-* [OPTIONAL] Top 5 most popular products
-	* Describe: ``Top 5 most popular products`` 
-	* Endpoint: ``/topfive``
-	*  Authentication:  ``Not required``
-	* HTTP verb:  ``GET``
-	* Request body:  ``Not required``
-	* Response body:   ``Array of Product.name`` of top 5 most popular products 
-		```javascript
-		[
-		  {
-		    "name": "product7"
-		  },
-		  {
-		    "name": "product8"
-		  },
-		  {
-		    "name": "product12"
-		  },
-		  {
-		    "name": "product13"
-		  },
-		  {
-		    "name": "product14"
-		  }
-		]
-		```
+#### Users API
 
-* [OPTIONAL] * Products by category
-	* Describe: ``Show product with category args(category)`` 
-	* Endpoint: ``/products/category/:category``
-	* Authentication:  ``Not required``
-	* HTTP verb:  ``GET``
-	* Request body:  ``Not required``
-	* Response body:   ``Array of Product`` object with contain all products of requested category
-		```javascript
-		[
-			{
-				"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
-				"name": "testProduct",
-				"price": 100,
-				"category": "test"
-			},
-			...
-		]
-		```
-
-#### Users
 * Create
 	* Describe: ``Create new user`` 
 	* Endpoint: ``/users``
@@ -121,7 +18,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 		    "password": "testPassword",
 		    "firstName": "test",
 		    "lastName": "user",
-		    "isActive": "true
+		    "isActive": "true"
 		}
 		```
 	* Response body:  ``User`` object
@@ -206,10 +103,131 @@ These are the notes from a meeting with the frontend developer that describe wha
 		}
 		```
 		
+#### Products API 
+* Create
+	* Describe: ``Create new product`` 
+	* Endpoint: ``/products``
+	* Authentication:  Require  ``Bareer Token``
+	* HTTP verb:  ``POST``
+	* Request body:  ``Product`` object
+		```javascript
+		{
+		    "name": "testProduct",
+		    "price": 100,
+		    "category": "test"
+		}
+		```
+	* Response body:  ``Product`` object
+		```javascript
+		{
+			"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
+			"name": "testProduct",
+			"price": 100,
+			"category": "test"
+		}
+		```
+		
+* Index:
+	* Describe: ``Index all products`` 
+	* Endpoint: ``/products``
+	* Authentication: ``Not required``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required``
+	* Response body:   ``Array of Product`` object
+		```javascript
+		[
+			{
+				"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
+				"name": "testProduct",
+				"price": 100,
+				"category": "test"
+			},
+			...
+		]
+		```
+		
+* Show:
+	* Describe: ``Show product with args(product id)`` 
+	* Endpoint: ``/products/show/:id``
+	*  Authentication:  ``Not required``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required``
+	* Response body:   ``Product`` object
+		```javascript
+		{
+			"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
+			"name": "testProduct",
+			"price": 100,
+			"category": "test"
+		}
+		```
 
-#### Orders
-- Current Order by user (args: user id)[token required]
-  * Active Order
+* Top 5 most popular products
+	* Describe: ``Top 5 most popular products`` 
+	* Endpoint: ``/topfive``
+	*  Authentication:  ``Not required``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required``
+	* Response body:   ``Array of Product`` of top 5 most popular products 
+		```javascript
+		[
+		  {
+		    "id": "afa808c3-dc68-4032-9bea-0ce3a72b7690",
+		    "name": "product2",
+		    "price": 101,
+		    "category": "home",
+		    "order_times": "2"
+		  },
+		  ...
+		 ]
+		```
+
+* Products by category
+	* Describe: ``Show product with category args(category)`` 
+	* Endpoint: ``/products/category/:category``
+	*  Authentication:  ``Not required``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required``
+	* Response body:   ``Array of Product`` object with contain all products of requested category
+		```javascript
+		[
+			{
+				"id": "24b5f3f6-fbd8-4225-82a1-1863021f0595",
+				"name": "testProduct",
+				"price": 100,
+				"category": "test"
+			},
+			...
+		]
+		```
+
+#### Orders API
+* Create
+	* Describe: ``Create new order`` 
+	* Endpoint: ``/orders``
+	* Authentication:  Require  ``Bareer Token``
+	* HTTP verb:  ``POST``
+	* Request body:  ``Order`` object
+		```javascript
+		{
+		    "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+		    "product_id": "0e4eb4a3-e08c-484e-a41f-befd111d1c72",
+		    "quantity": 1,
+		    "status": "active"
+		}
+		```
+	* Response body:  ``Order`` object
+		```javascript
+		{
+			 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
+			 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+			 "product_id": "0e4eb4a3-e08c-484e-a41f-befd111d1c72",
+			 "quantity": 1,
+			 "status": "active"
+		}
+		```
+		
+* Active Order
 	* Describe: ``Show all active user orders args(user id)`` 
 	* Endpoint: ``/orders/active/:id``
 	* Authentication:  Require  ``Bareer Token``
@@ -221,18 +239,24 @@ These are the notes from a meeting with the frontend developer that describe wha
 			{
 				 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
 				 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
-				 "product_id": "0e4eb4a3-e08c-484e-a41f-befd111d1c72",
-				 "quantity": 1,
 				 "status": "active"
-			},
+				 "total_order_items": "1",
+			     "products": [
+			       {
+			         "name": "product97",
+			         "price": 196,
+			         "category": "headphone"
+			       },
+			       ...
+			     ]
+		 	},
 			...
 		]
 		```
 
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
- * Completed Orders
-	* Describe: ``Show all completed user orders args(user id)`` 
-	* Endpoint: ``/orders//complete/:id``
+* Completed Orders
+ 	* Describe: ``Show all completed user orders args(user id)`` 
+	* Endpoint: ``/orders/complete/:id``
 	* Authentication:  Require  ``Bareer Token``
 	* HTTP verb:  ``GET``
 	* Request body:  ``Not required``
@@ -242,12 +266,104 @@ These are the notes from a meeting with the frontend developer that describe wha
 			{
 				 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
 				 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
-				 "product_id": "0e4eb4a3-e08c-484e-a41f-befd111d1c72",
-				 "quantity": 1,
 				 "status": "active"
-			},
+				 "total_order_items": "1",
+			     "products": [
+			       {
+			         "name": "product97",
+			         "price": 196,
+			         "category": "headphone"
+			       },
+			       ...
+			     ]
+		 	},
 			...
 		]
+		```
+
+#### ProductOrder API
+* Create
+	* Describe: ``Create new product-order`` 
+	* Endpoint: ``/product-order``
+	* Authentication:  Require  ``Bareer Token``
+	* HTTP verb:  ``POST``
+	* Request body:  ``Order`` object
+		```javascript
+		{
+		    "order_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+		    "product_id": "0e4eb4a3-e08c-484e-a41f-befd111d1c72",
+		    "quantity": "active"
+		}
+		```
+	* Response body:  ``Order`` object
+		```javascript
+		{
+			 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
+			 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+			 "status": "active"
+
+			 "total_order_items": "1",
+		     "products": [
+		       {
+		         "name": "product97",
+		         "price": 196,
+		         "category": "headphone"
+		       },
+		       ...
+		     ]
+	 	}
+		```
+
+* index
+	* Describe: ``Index all product-order`` 
+	* Endpoint: ``/product-order``
+	* Authentication:  Require  ``Bareer Token``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required`` 
+	* Response body:  ``Order`` object
+		```javascript
+		[
+			{
+				 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
+				 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+				 "status": "active"
+				 "total_order_items": "1",
+			     "products": [
+			       {
+			         "name": "product97",
+			         "price": 196,
+			         "category": "headphone"
+			       },
+			       ...
+			     ]
+		 	},
+			...
+		]
+		```
+
+* show
+	* Describe: ``Show product-order by order id`` 
+	* Endpoint: ``/product-order/:id``
+	* Authentication:  Require  ``Bareer Token``
+	* HTTP verb:  ``GET``
+	* Request body:  ``Not required`` 
+	* Response body:  ``Order`` object
+		```javascript
+		{
+			 "id": "5a07d5e4-1c10-4861-bd32-0bef17e8f9dd",
+			 "user_id": "4779a1ad-90b0-4c26-86b7-0f0bab1099a9",
+			 "status": "active"
+
+			 "total_order_items": "1",
+		     "products": [
+		       {
+		         "name": "product97",
+		         "price": 196,
+		         "category": "headphone"
+		       },
+		       ...
+		     ]
+	 	}
 		```
 
 ## Schema
@@ -281,6 +397,17 @@ CREATE TABLE orders(
     product_id uuid  REFERENCES products (id) NOT NULL,
     quantity INTEGER NOT NULL,
     status VARCHAR(50) NOT NULL
+)
+```
+
+### Orders Table
+```sql
+CREATE TABLE product_order(
+  order_id uuid REFERENCES orders(id) NOT NULL,
+  product_id uuid REFERENCES products(id) NOT NULL,
+  quantity INTEGER NOT NULL,
+  PRIMARY KEY (order_id, product_id)
+);
 )
 ```
 
